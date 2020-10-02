@@ -5,6 +5,12 @@
 #include <stdlib.h>
 
 double myPow(double x, int n) {
+  // x^21
+  // x * x ^ 20
+  // x * (x ^ 10) ^ 2
+  // x * ((x ^ 5) ^ 2) ^ 2
+  // x * ((x ^ 2 * x ^ 2 * x) ^ 2) ^ 2
+
   if (n == 0) {
     return 1;
   } else if (n == 1) {
