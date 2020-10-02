@@ -1,0 +1,47 @@
+* to include symbolic debugging info while compiling
+> gcc -g <file name>
+* to invoke gdb
+> gdb ./a.out
+*	start debugging command
+> start 
+* to see source code
+> list
+* to repeat the last command
+> enter-key
+* to execute 1 source code instruction (to also go inside the sub routine aka function)
+> step
+> s
+* to execute 1 source code instruction (to step over or not go inside the sub routine)
+> next
+> n
+* to print a variable
+> print <variable name>
+> p <variable name>
+* to examine memory in lower level. to examine byte at an address
+> x <variable name>  
+* to examine a single byte
+> x/b
+* to examine 10 bytes in succession
+> x/10b <variable name>
+* to watch a variable, whenever the  variable changes it prints the new and old values
+> watch <variable name>
+* read watch 
+> rwatch <variable> 
+* to continue to next watch or break point
+> cont
+> c
+* print info abt command
+> info <command>
+* set breakpoint
+> break <line number>
+> b <line number>
+* to delete a breakpoint. num is a number which is can be obtained by running "info watch" or "info dele"
+> dele <num>
+> d <num>
+* back trace to view call frames, prints stack trace
+> bt
+* switch to context of a frame in stack trace; num can be obtained via "bt" command; switching context lets us print values from a previous frame
+> frame <num>
+* set a variable manually
+> set var <variable name>=<value> 
+*  
