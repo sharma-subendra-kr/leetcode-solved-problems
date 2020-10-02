@@ -1,44 +1,44 @@
 // 287. Find the Duplicate Number
 // https://leetcode.com/problems/find-the-duplicate-number/
-//
+
 #include <stdio.h>
 #include <stdlib.h>
 
-int findDuplicate(int* nums, int numsSize){
-    int tortoise = nums[0];
-    int hare = nums[0];
-    while (1) {
-        tortoise = nums[tortoise];
-        hare = nums[nums[hare]];
-        if (tortoise == hare) {
-            break;
-        }
-    }  
-
-    tortoise = nums[0];
-
-    while (tortoise != hare) {
-        tortoise = nums[tortoise];
-        hare = nums[hare];
+int findDuplicate(int* nums, int numsSize) {
+  int tortoise = nums[0];
+  int hare = nums[0];
+  while (1) {
+    tortoise = nums[tortoise];
+    hare = nums[nums[hare]];
+    if (tortoise == hare) {
+      break;
     }
+  }
 
-    return tortoise;
+  tortoise = nums[0];
+
+  while (tortoise != hare) {
+    tortoise = nums[tortoise];
+    hare = nums[hare];
+  }
+
+  return tortoise;
 }
 
-int main () {
-    int n, *arr, i, ans;
-     
-    scanf("%d", &n);
+int main() {
+  int n, *arr, i, ans;
 
-    arr = (int *) malloc(sizeof(int) * n);
+  scanf("%d", &n);
 
-    for (i = 0; i < n; i++) {
-        scanf("%d", &arr[i]);
-    }
+  arr = (int*)malloc(sizeof(int) * n);
 
-    ans = findDuplicate(arr, n);
+  for (i = 0; i < n; i++) {
+    scanf("%d", &arr[i]);
+  }
 
-    printf("%d", ans);
+  ans = findDuplicate(arr, n);
 
-    return 0;
+  printf("%d", ans);
+
+  return 0;
 }
