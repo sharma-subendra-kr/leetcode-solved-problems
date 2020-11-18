@@ -6,16 +6,6 @@
 
 #define MAX(a, b) a > b ? a : b
 
-void sanitizeIndex(int *arr, int wipe) {
-	int i;
-
-	for (i = 0; i < 128; i++) {
-		if (arr[i] < wipe) {
-			arr[i] = -1;
-		}
-	}
-}
-
 int lengthOfLongestSubstring(char *s) {
 	int arr[128];
 
