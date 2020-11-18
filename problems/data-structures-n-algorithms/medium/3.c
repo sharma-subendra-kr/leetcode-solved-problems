@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define MAX(a, b) a > b ? a : b
+
 void sanitizeIndex(int *arr, int wipe) {
 	int i;
 
@@ -18,7 +20,7 @@ int lengthOfLongestSubstring(char *s) {
 	int arr[128];
 
 	int len = 0;
-	int i, start = 0, maxLen = 0, currLen = 0;
+	int i, maxLen = 0, prevIndex = 0;
 
 	while (len < 128) {
 		arr[len++] = -1;
@@ -31,21 +33,13 @@ int lengthOfLongestSubstring(char *s) {
 	}
 
 	for (i = 0; i < len; i++) {
-		if (arr[s[i] - '\0'] == -1) {
-			arr[s[i] - '\0'] = i;
-			currLen++;
-			if (i == len - 1 && currLen > maxLen) {
-				maxLen = currLen;
-			}
-		} else {
-			if (i - start > maxLen) {
-				maxLen = i - start;
-			}
-			currLen = i - arr[s[i] - '\0'];
-			start = arr[s[i] - '\0'] + 1;
-			arr[s[i] - '\0'] = i;
-			sanitizeIndex(arr, start);
+		if (arr[s[i] - '\0'] > -1) {
+			prevIndex = MAX(arr[s[i] - '\0'], prevIndex);
 		}
+		// adding one here cuz it causes problem with string with length 1
+		maxLen = MAX(maxLen, i - prevIndex + 1);
+		// adding one here cuz it causes problem with string with length 1
+		arr[s[i] - '\0'] = i + 1;
 	}
 
 	return maxLen;
