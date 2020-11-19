@@ -10,39 +10,69 @@ struct TreeNode {
 	struct TreeNode *right;
 };
 
-int *inOrder(struct TreeNode *root, int *returnSize, int *arr, int *iter,
-						 int *size) {
-	if (root == NULL) {
-		return NULL;
-	}
+// Recursive Solution
+//
 
-	inOrder(root->left, returnSize, arr, iter, size);
+// int *inOrder(struct TreeNode *root, int *returnSize, int *arr, int *iter,
+// 						 int *size) {
+// 	if (root == NULL) {
+// 		return NULL;
+// 	}
 
-	if (*iter < *size) {
-		arr[(*iter)++] = root->val;
-		(*returnSize)++;
-	} else {
-		arr = (int *)realloc(arr, sizeof(int) * *size * 2);
-		(*size) *= 2;
-		arr[(*iter)++] = root->val;
-		(*returnSize)++;
-	}
+// 	inOrder(root->left, returnSize, arr, iter, size);
 
-	inOrder(root->right, returnSize, arr, iter, size);
+// 	if (*iter < *size) {
+// 		arr[(*iter)++] = root->val;
+// 		(*returnSize)++;
+// 	} else {
+// 		arr = (int *)realloc(arr, sizeof(int) * *size * 2);
+// 		(*size) *= 2;
+// 		arr[(*iter)++] = root->val;
+// 		(*returnSize)++;
+// 	}
 
-	return arr;
-}
+// 	inOrder(root->right, returnSize, arr, iter, size);
 
-// Try Morris Traversal solution Later
-// Do Iterative solution later
+// 	return arr;
+// }
+
+// int *inorderTraversal(struct TreeNode *root, int *returnSize) {
+// 	int *arr = (int *)malloc(sizeof(int) * 100);
+// 	int iter = 0, size = 100;
+// 	*returnSize = 0;
+
+// 	return inOrder(root, returnSize, arr, &iter, &size);
+// }
+
+// Morris Traversal solution Later
+//
 //
 
 int *inorderTraversal(struct TreeNode *root, int *returnSize) {
 	int *arr = (int *)malloc(sizeof(int) * 100);
-	int iter = 0, size = 100;
+	int iter = 0;
+	struct TreeNode *curr = NULL, *cLeft = NULL, *temp = NULL;
 	*returnSize = 0;
 
-	return inOrder(root, returnSize, arr, &iter, &size);
+	curr = root;
+
+	while (curr != NULL) {
+		if (curr->left != NULL) {
+			cLeft = curr->left;
+			temp = cLeft;
+			while (cLeft->right != NULL) {
+				cLeft = cLeft->right;
+			}
+			cLeft->right = curr;
+			curr->left = NULL;
+			curr = temp;
+		} else {
+			arr[iter++] = curr->val;
+			curr = curr->right;
+		}
+	}
+	*returnSize = iter;
+	return arr;
 }
 
 int main() {
