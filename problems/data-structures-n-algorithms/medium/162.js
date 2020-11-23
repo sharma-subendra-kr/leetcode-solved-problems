@@ -14,8 +14,8 @@ const findPeakElement = function (nums) {
 		mid = Math.floor((high + low) / 2);
 
 		if (
-			nums[mid] > (nums[mid + 1] || Number.MIN_SAFE_INTEGER) &&
-			nums[mid] > (nums[mid - 1] || Number.MIN_SAFE_INTEGER)
+			nums[mid] > (nums[mid + 1] || -2147483648) &&
+			nums[mid] > (nums[mid - 1] || -2147483648)
 		) {
 			return mid;
 		} else if (nums[mid] > nums[mid - 1]) {
@@ -33,8 +33,8 @@ function main() {
 	// const res = findPeakElement([1, 2, 1, 3, 5, 6, 4]);
 	// const res = findPeakElement([1, 2, 3, 1]);
 	// const res = findPeakElement([1, 2]);
-	// const res = findPeakElement([-2147483647, -2147483648]);
-	const res = findPeakElement([-2147483648, -2147483647]);
+	const res = findPeakElement([-2147483647, -2147483648]);
+	// const res = findPeakElement([-2147483648, -2147483647]);
 
 	console.log(res);
 }
