@@ -11,20 +11,20 @@
 #include <stdlib.h>
 
 int mySqrt(int n) {
-  // Newton's Method
+	// Newton's Method
 
-  int r = n;
-  while (r * r > n) {
-    r = (r + n / r) / 2;
-  }
-  return r;
+	long r = n;
+	while (r * r > n) {
+		r = (r + n / r) / 2;
+	}
+	return r;
 }
 
 int main() {
-  int n;
-  scanf("%d", &n);
+	int n;
+	scanf("%d", &n);
 
-  printf("%d", mySqrt(n));
+	printf("%d", mySqrt(n));
 
-  return 0;
+	return 0;
 }
