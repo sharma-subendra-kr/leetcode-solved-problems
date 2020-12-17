@@ -20,67 +20,117 @@ public:
 	}
 };
 
+// Node *copyRandomList(Node *head) {
+// 	if (head == NULL) {
+// 		return NULL;
+// 	}
+
+// 	unordered_map<Node *, Node *> um;
+
+// 	Node *curr = head;
+
+// 	while (curr != NULL) {
+// 		Node *newTemp = NULL;
+// 		Node *newRandom = NULL;
+
+// 		auto cIter = um.find(curr);
+// 		if (cIter == um.end()) {
+// 			newTemp = new Node(curr->val);
+// 			um.insert({curr, newTemp});
+// 		} else if (cIter != um.end()) {
+// 			newTemp = cIter->second;
+// 		}
+
+// 		auto rIter = um.find(curr->random);
+// 		if (rIter == um.end() && curr->random != NULL) {
+// 			newRandom = new Node(curr->random->val);
+// 			um.insert({curr->random, newRandom});
+// 		} else if (rIter != um.end()) {
+// 			newRandom = rIter->second;
+// 		}
+
+// 		newTemp->random = newRandom;
+
+// 		Node *tempNext = curr->next;
+// 		curr->next = newTemp;
+// 		newTemp->next = tempNext;
+// 		curr = tempNext;
+// 	}
+
+// 	Node *newHead = head->next;
+// 	Node *oIter = head;
+// 	Node *oPrev = NULL;
+// 	Node *nIter = NULL;
+// 	int count = 0;
+
+// 	while (oIter != NULL) {
+// 		if (count % 2 == 1) {
+// 			if (nIter == NULL) {
+// 				nIter = oIter;
+// 			} else {
+// 				nIter->next = oIter;
+// 				nIter = nIter->next;
+// 			}
+// 			oPrev->next = oIter->next;
+// 		} else {
+// 			oPrev = oIter;
+// 		}
+
+// 		oIter = oIter->next;
+// 		count++;
+// 	}
+
+// 	return newHead;
+// }
+
 Node *copyRandomList(Node *head) {
 	if (head == NULL) {
 		return NULL;
 	}
 
-	unordered_map<Node *, Node *> um;
-
 	Node *curr = head;
-
+	Node *temp = NULL;
 	while (curr != NULL) {
-		Node *newTemp = NULL;
-		Node *newRandom = NULL;
+		Node *copy = new Node(curr->val);
+		temp = curr->next;
+		curr->next = copy;
+		copy->next = temp;
 
-		auto cIter = um.find(curr);
-		if (cIter == um.end()) {
-			newTemp = new Node(curr->val);
-			um.insert({curr, newTemp});
-		} else if (cIter != um.end()) {
-			newTemp = cIter->second;
-		}
-
-		auto rIter = um.find(curr->random);
-		if (rIter == um.end() && curr->random != NULL) {
-			newRandom = new Node(curr->random->val);
-			um.insert({curr->random, newRandom});
-		} else if (rIter != um.end()) {
-			newRandom = rIter->second;
-		}
-
-		newTemp->random = newRandom;
-
-		Node *tempNext = curr->next;
-		curr->next = newTemp;
-		newTemp->next = tempNext;
-		curr = tempNext;
+		curr = temp;
 	}
 
-	Node *newHead = head->next;
-	Node *oIter = head;
-	Node *oPrev = NULL;
-	Node *nIter = NULL;
-	int count = 0;
+	curr = head;
+	Node *copycurr = head->next;
+	Node *random;
+	while (curr != NULL) {
+		random = curr->random;
+		if (random != NULL) {
+			copycurr->random = random->next;
+		}
 
-	while (oIter != NULL) {
-		if (count % 2 == 1) {
-			if (nIter == NULL) {
-				nIter = oIter;
-			} else {
-				nIter->next = oIter;
-				nIter = nIter->next;
-			}
-			oPrev->next = oIter->next;
+		curr = curr->next->next;
+		if (copycurr->next) {
+			copycurr = copycurr->next->next;
+		}
+	}
+
+	Node *resHead = head->next;
+
+	curr = head;
+	copycurr = head->next;
+	while (copycurr != NULL) {
+		if (copycurr->next != NULL) {
+			curr->next = curr->next->next;
+			copycurr->next = copycurr->next->next;
+			copycurr = copycurr->next;
+			curr = curr->next;
 		} else {
-			oPrev = oIter;
+			copycurr = copycurr->next;
+			curr->next = NULL;
 		}
-
-		oIter = oIter->next;
-		count++;
 	}
 
-	return newHead;
+	return resHead;
 }
 
 int main() {
