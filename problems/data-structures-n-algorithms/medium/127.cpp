@@ -122,81 +122,49 @@ using namespace std;
 // }
 
 int ladderLength(string beginWord, string endWord, vector<string> &wordList) {
-	unordered_map<string, int> bHeightMap;
-	unordered_map<string, int> eHeightMap;
-	queue<string> beginQ;
-	queue<string> endQ;
-	int bLen = 1;
-	int eLen = 1;
+	unordered_set<string> words(wordList.begin(), wordList.end()), head, tail,
+			*phead, *ptail;
+	int len = 2;
 
-	for (int i = 0; i < wordList.size(); i++) {
-		bHeightMap.insert({wordList[i], -1});
-		eHeightMap.insert({wordList[i], -1});
+	if (words.find(endWord) == words.end()) {
+		return 0;
 	}
 
-	if (bHeightMap.find(beginWord) == bHeightMap.end()) {
-		bHeightMap.insert({beginWord, -1});
-		eHeightMap.insert({beginWord, -1});
-	}
-	beginQ.push(beginWord);
-	if (eHeightMap.find(endWord) != eHeightMap.end()) {
-		endQ.push(endWord);
-	}
+	words.insert(beginWord);
 
-	while (!beginQ.empty() && !endQ.empty()) {
-		int bn = beginQ.size();
+	head.insert(beginWord);
+	tail.insert(endWord);
 
-		for (int i = 0; i < bn; i++) {
-			string word = beginQ.front();
-			beginQ.pop();
+	while (!head.empty() && !tail.empty()) {
+		if (head.size() < tail.size()) {
+			phead = &head;
+			ptail = &tail;
+		} else {
+			phead = &tail;
+			ptail = &head;
+		}
 
-			bHeightMap.find(word)->second = bLen;
-
-			auto e = eHeightMap.find(word);
-			if (e->second != -1) {
-				return e->second + bLen - 1;
-			}
-
+		unordered_set<string> temp;
+		for (auto iter = phead->begin(); iter != phead->end(); iter++) {
+			string word = *iter;
+			string copyWord = word;
 			for (int j = 0; j < word.size(); j++) {
 				char c = word[j];
 				for (int k = 0; k < 26; k++) {
 					word[j] = 'a' + k;
-					auto iter = bHeightMap.find(word);
-					if (iter != bHeightMap.end() && iter->second == -1) {
-						beginQ.push(word);
+					if (ptail->find(word) != ptail->end()) {
+						return len;
+					}
+					if (word != copyWord && words.find(word) != words.end()) {
+						words.erase(word);
+						temp.insert(word);
 					}
 				}
 				word[j] = c;
 			}
 		}
-		bLen++;
-
-		int en = endQ.size();
-
-		for (int i = 0; i < en; i++) {
-			string word = endQ.front();
-			endQ.pop();
-
-			eHeightMap.find(word)->second = eLen;
-
-			auto b = bHeightMap.find(word);
-			if (b->second != -1) {
-				return b->second + eLen - 1;
-			}
-
-			for (int j = 0; j < word.size(); j++) {
-				char c = word[j];
-				for (int k = 0; k < 26; k++) {
-					word[j] = 'a' + k;
-					auto iter = eHeightMap.find(word);
-					if (iter != eHeightMap.end() && iter->second == -1) {
-						endQ.push(word);
-					}
-				}
-				word[j] = c;
-			}
-		}
-		eLen++;
+		phead->swap(temp);
+		len++;
 	}
 
 	return 0;
@@ -207,10 +175,12 @@ int main() {
 	// vector<string> wordList = {"hot", "dot", "dog", "lot", "log", "cog"};
 	// string beginWord = "hit", endWord = "cog";
 	// vector<string> wordList = {"hot", "dot", "dog", "lot", "log"};
-	string beginWord = "hot", endWord = "dog";
-	vector<string> wordList = {"hot", "dog"};
-	// string beginWord = "hog", endWord = "cog";
-	// vector<string> wordList = {"cog"};
+	// string beginWord = "hot", endWord = "dog";
+	// vector<string> wordList = {"hot", "dog"};
+	string beginWord = "hog", endWord = "cog";
+	vector<string> wordList = {"cog"};
+	// string beginWord = "hit", endWord = "cog";
+	// vector<string> wordList = {"hot", "dot", "tog", "cog"};
 
 	int res;
 
