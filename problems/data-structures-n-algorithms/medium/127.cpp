@@ -42,22 +42,104 @@ using namespace std;
 // 	return 0;
 // }
 
+// int ladderLength(string beginWord, string endWord, vector<string> &wordList)
+// { 	unordered_map<string, int> bHeightMap; 	unordered_map<string, int>
+// eHeightMap; 	unordered_set<string> beginSet(wordList.begin(),
+// wordList.end()); 	unordered_set<string> endSet(wordList.begin(),
+// wordList.end()); 	queue<string> beginQ; 	queue<string> endQ; 	int bLen =
+// 1; int eLen = 1;
+
+// 	if (beginSet.find(beginWord) == beginSet.end()) {
+// 		beginSet.insert(beginWord);
+// 		endSet.insert(beginWord);
+// 	}
+// 	beginQ.push(beginWord);
+// 	if (endSet.find(endWord) != endSet.end()) {
+// 		endQ.push(endWord);
+// 	}
+
+// 	while (!beginQ.empty() && !endQ.empty()) {
+// 		int bn = beginQ.size();
+
+// 		for (int i = 0; i < bn; i++) {
+// 			string word = beginQ.front();
+// 			beginQ.pop();
+
+// 			if (bHeightMap.find(word) == bHeightMap.end()) {
+// 				bHeightMap.insert({word, bLen});
+// 			}
+
+// 			auto e = eHeightMap.find(word);
+// 			if (e != eHeightMap.end()) {
+// 				return e->second + bLen - 1;
+// 			}
+
+// 			for (int j = 0; j < word.size(); j++) {
+// 				char c = word[j];
+// 				for (int k = 0; k < 26; k++) {
+// 					word[j] = 'a' + k;
+// 					if (beginSet.find(word) != beginSet.end() &&
+// 							bHeightMap.find(word) == bHeightMap.end()) {
+// 						beginQ.push(word);
+// 					}
+// 				}
+// 				word[j] = c;
+// 			}
+// 		}
+// 		bLen++;
+
+// 		int en = endQ.size();
+
+// 		for (int i = 0; i < en; i++) {
+// 			string word = endQ.front();
+// 			endQ.pop();
+
+// 			if (eHeightMap.find(word) == eHeightMap.end()) {
+// 				eHeightMap.insert({word, eLen});
+// 			}
+
+// 			auto b = bHeightMap.find(word);
+// 			if (b != bHeightMap.end()) {
+// 				return b->second + eLen - 1;
+// 			}
+
+// 			for (int j = 0; j < word.size(); j++) {
+// 				char c = word[j];
+// 				for (int k = 0; k < 26; k++) {
+// 					word[j] = 'a' + k;
+// 					if (endSet.find(word) != endSet.end() &&
+// 							eHeightMap.find(word) == eHeightMap.end()) {
+// 						endQ.push(word);
+// 					}
+// 				}
+// 				word[j] = c;
+// 			}
+// 		}
+// 		eLen++;
+// 	}
+
+// 	return 0;
+// }
+
 int ladderLength(string beginWord, string endWord, vector<string> &wordList) {
 	unordered_map<string, int> bHeightMap;
 	unordered_map<string, int> eHeightMap;
-	unordered_set<string> beginSet(wordList.begin(), wordList.end());
-	unordered_set<string> endSet(wordList.begin(), wordList.end());
 	queue<string> beginQ;
 	queue<string> endQ;
 	int bLen = 1;
 	int eLen = 1;
 
-	if (beginSet.find(beginWord) == beginSet.end()) {
-		beginSet.insert(beginWord);
-		endSet.insert(beginWord);
+	for (int i = 0; i < wordList.size(); i++) {
+		bHeightMap.insert({wordList[i], -1});
+		eHeightMap.insert({wordList[i], -1});
+	}
+
+	if (bHeightMap.find(beginWord) == bHeightMap.end()) {
+		bHeightMap.insert({beginWord, -1});
+		eHeightMap.insert({beginWord, -1});
 	}
 	beginQ.push(beginWord);
-	if (endSet.find(endWord) != endSet.end()) {
+	if (eHeightMap.find(endWord) != eHeightMap.end()) {
 		endQ.push(endWord);
 	}
 
@@ -68,12 +150,10 @@ int ladderLength(string beginWord, string endWord, vector<string> &wordList) {
 			string word = beginQ.front();
 			beginQ.pop();
 
-			if (bHeightMap.find(word) == bHeightMap.end()) {
-				bHeightMap.insert({word, bLen});
-			}
+			bHeightMap.find(word)->second = bLen;
 
 			auto e = eHeightMap.find(word);
-			if (e != eHeightMap.end()) {
+			if (e->second != -1) {
 				return e->second + bLen - 1;
 			}
 
@@ -81,8 +161,8 @@ int ladderLength(string beginWord, string endWord, vector<string> &wordList) {
 				char c = word[j];
 				for (int k = 0; k < 26; k++) {
 					word[j] = 'a' + k;
-					if (beginSet.find(word) != beginSet.end() &&
-							bHeightMap.find(word) == bHeightMap.end()) {
+					auto iter = bHeightMap.find(word);
+					if (iter != bHeightMap.end() && iter->second == -1) {
 						beginQ.push(word);
 					}
 				}
@@ -97,12 +177,10 @@ int ladderLength(string beginWord, string endWord, vector<string> &wordList) {
 			string word = endQ.front();
 			endQ.pop();
 
-			if (eHeightMap.find(word) == eHeightMap.end()) {
-				eHeightMap.insert({word, eLen});
-			}
+			eHeightMap.find(word)->second = eLen;
 
 			auto b = bHeightMap.find(word);
-			if (b != bHeightMap.end()) {
+			if (b->second != -1) {
 				return b->second + eLen - 1;
 			}
 
@@ -110,8 +188,8 @@ int ladderLength(string beginWord, string endWord, vector<string> &wordList) {
 				char c = word[j];
 				for (int k = 0; k < 26; k++) {
 					word[j] = 'a' + k;
-					if (endSet.find(word) != endSet.end() &&
-							eHeightMap.find(word) == eHeightMap.end()) {
+					auto iter = eHeightMap.find(word);
+					if (iter != eHeightMap.end() && iter->second == -1) {
 						endQ.push(word);
 					}
 				}
