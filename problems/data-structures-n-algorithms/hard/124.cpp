@@ -134,7 +134,7 @@ int maxPathSum(TreeNode *root) {
 
 	int maxValue = INT_MIN;
 	traverse(root, &maxValue);
-	return maxValue == INT_MIN ? 0 : maxValue;
+	return maxValue;
 }
 
 int main() {
