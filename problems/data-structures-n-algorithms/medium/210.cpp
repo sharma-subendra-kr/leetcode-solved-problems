@@ -9,44 +9,6 @@
 
 using namespace std;
 
-// vector<int> dfs(unordered_map<int, forward_list<int>> &graph, int current,
-// 								int visited[], pair<int, vector<int>> cache[]) {
-// 	if (visited[current] == 1)
-// 		return vector<int>();
-
-// 	visited[current] = 1;
-
-// 	auto iter = graph.find(current);
-// 	if (iter == graph.end()) {
-// 		vector<int> v = {current};
-// 		return v;
-// 	}
-
-// 	vector<int> result;
-// 	for (auto i = iter->second.begin(); i != iter->second.end(); i++) {
-// 		if (cache[*i].first != -1 && cache[*i].second.size() == 0) {
-// 			return cache[*i].second;
-// 		} else if (cache[*i].second.size() > 0) {
-// 			if (cache[*i].second.size() > result.size()) {
-// 				result = cache[*i].second;
-// 			}
-// 			continue;
-// 		}
-
-// 		vector<int> res = dfs(graph, *i, visited, cache);
-// 		cache[*i].first = 1;
-// 		cache[*i].second = res;
-// 		if (res.size() == 0)
-// 			return res;
-// 		if (res.size() > result.size()) {
-// 			result = res;
-// 		}
-// 	}
-
-// 	result.push_back(current);
-// 	return result;
-// }
-
 vector<int> findOrder(int numCourses, vector<vector<int>> &prerequisites) {
 	unordered_map<int, vector<int>> graph;
 
