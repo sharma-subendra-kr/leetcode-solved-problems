@@ -17,6 +17,7 @@ int dfs(unordered_map<int, forward_list<int>> &graph, int current,
 
 	auto iter = graph.find(current);
 	if (iter == graph.end()) {
+		visited[current] = 0;
 		return 1;
 	}
 
@@ -32,6 +33,9 @@ int dfs(unordered_map<int, forward_list<int>> &graph, int current,
 		if (res == 0)
 			return 0;
 	}
+
+	visited[current] = 0;
+
 	return 1;
 }
 
