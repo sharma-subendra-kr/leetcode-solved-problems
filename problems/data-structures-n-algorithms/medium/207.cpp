@@ -21,9 +21,12 @@ int dfs(unordered_map<int, forward_list<int>> &graph, int current,
 	}
 
 	for (auto i = iter->second.begin(); i != iter->second.end(); i++) {
-		if (cache[*i] != -1) {
+		if (cache[*i] == 0) {
 			return cache[*i];
+		} else if (cache[*i] == 1) {
+			continue;
 		}
+
 		bool res = dfs(graph, *i, visited, cache);
 		cache[*i] = res;
 		if (res == 0)
