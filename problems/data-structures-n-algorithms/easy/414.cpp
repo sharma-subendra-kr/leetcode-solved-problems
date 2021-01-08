@@ -16,8 +16,9 @@ int thirdMax(vector<int> &nums) {
 	int max1 = INT_MIN;
 	int size = nums.size();
 	int countMin = 0;
+	int num;
 	for (int i = 0; i < nums.size(); i++) {
-		int num = nums[i];
+		num = nums[i];
 		if (num == INT_MIN && countMin == 1) {
 			size--;
 			continue;
