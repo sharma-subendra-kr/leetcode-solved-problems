@@ -42,8 +42,4 @@ int diameterOfBinaryTree(TreeNode *root) {
 	return max;
 }
 
-int main() {
-	TreeNode *head = ;
-
-	return 0;
-}
+int main() { return 0; }
