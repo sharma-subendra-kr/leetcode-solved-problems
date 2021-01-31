@@ -36,20 +36,20 @@ void traverse(TreeNode *root, vector<int> &res) {
 		return;
 	}
 
-	stack<TreeNode *> stack;
+	stack<TreeNode *> st;
 	TreeNode *iter = root;
 
 	do {
 		while (iter != NULL) {
 			res.push_back(iter->val);
-			stack.push(iter);
+			st.push(iter);
 			iter = iter->left;
 		}
 
-		iter = stack.top();
-		stack.pop();
+		iter = st.top();
+		st.pop();
 		iter = iter->right;
-	} while (iter != NULL || !stack.empty());
+	} while (iter != NULL || !st.empty());
 }
 
 vector<int> preorderTraversal(TreeNode *root) {
