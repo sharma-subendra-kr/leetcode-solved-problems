@@ -10,27 +10,6 @@
 
 using namespace std;
 
-// int compress(vector<char> &chars) {
-// 	//
-// 	int count = 1;
-// 	int currCount = 1;
-// 	int start = 0;
-
-// 	for (int i = 1; i < chars.size(); i++) {
-// 		if (chars[i - 1] != chars[i] || count == 10) {
-// 			if (count == 1) {
-// 				chars[start + 1] = chars[i];
-// 			} else if (currCount == 10 && chars[i - 1] != chars[i]) {
-// 				chars[i] = chars[i];
-// 			}
-
-// 			start = i;
-// 			count = 1;
-// 			continue;
-// 		}
-// 	}
-// }
-
 vector<char> getCountChars(int count) {
 	vector<char> res;
 
