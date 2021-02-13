@@ -34,7 +34,6 @@ int totalFruit(vector<int> &tree) {
 			umap.clear();
 			umap.insert({fruit, (fruitIndex > index ? fruitIndex : index)});
 			umap.insert({tree[i], i});
-			MAX = max(sum, MAX);
 			sum = i - index + 1;
 			MAX = max(sum, MAX);
 			// index - previous index + one
