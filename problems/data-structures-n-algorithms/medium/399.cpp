@@ -45,13 +45,9 @@ vector<double> calcEquation(vector<vector<string>> &equations,
 														vector<double> &values,
 														vector<vector<string>> &queries) {
 	//
-	unordered_map<string, double> fractions;
 	unordered_map<string, unordered_map<string, double>> ump;
 
 	for (int i = 0; i < equations.size(); i++) {
-		fractions.insert({equations[i][0] + "/" + equations[i][1], values[i]});
-		fractions.insert({equations[i][1] + "/" + equations[i][0], 1 / values[i]});
-
 		auto iter = ump.find(equations[i][0]);
 		if (iter != ump.end()) {
 			iter->second.insert({equations[i][1], values[i]});
@@ -72,17 +68,6 @@ vector<double> calcEquation(vector<vector<string>> &equations,
 
 	vector<double> res;
 	for (int i = 0; i < queries.size(); i++) {
-		auto f1 = fractions.find(queries[i][0] + "/" + queries[i][1]);
-		auto f2 = fractions.find(queries[i][1] + "/" + queries[i][0]);
-
-		if (f1 != fractions.end()) {
-			res.push_back(f1->second);
-			continue;
-		} else if (f2 != fractions.end()) {
-			res.push_back(f2->second);
-			continue;
-		}
-
 		auto iter = ump.find(queries[i][0]);
 		auto iter1 = ump.find(queries[i][1]);
 		bool flag = false;
