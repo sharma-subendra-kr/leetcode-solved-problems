@@ -109,6 +109,59 @@ using namespace std;
 // 	return 0;
 // }
 
+int getArea(vector<int> a, vector<int> b) {
+	//
+	int length = abs(a[0] - b[0]);
+	int breadth = abs(a[1] - b[1]);
+
+	return length * breadth;
+}
+
+int minAreaRect(vector<vector<int>> &points) {
+	unordered_map<int, unordered_set<int>> ump;
+	int MIN = INT_MAX;
+
+	for (int i = 0; i < points.size(); i++) {
+		auto iter = ump.find(points[i][0]);
+		if (iter != ump.end()) {
+			iter->second.insert(points[i][1]);
+		} else {
+			unordered_set<int> v;
+			v.insert(points[i][1]);
+			ump.insert({points[i][0], v});
+		}
+	}
+
+	for (int i = 0; i < points.size() - 1; i++) {
+		for (int j = i + 1; j < points.size(); j++) {
+			if (points[i][0] == points[j][0] || points[i][1] == points[j][1]) {
+				continue;
+			}
+
+			auto iter1 = ump.find(points[i][0]);
+			auto iter2 = ump.find(points[j][0]);
+
+			if (iter1 != ump.end() && iter2 != ump.end()) {
+				auto ii1 = iter1->second.find(points[j][1]);
+				auto ii2 = iter2->second.find(points[i][1]);
+
+				if (ii1 != iter1->second.end() && ii2 != iter2->second.end()) {
+					int area = getArea(points[i], points[j]);
+					if (area < MIN) {
+						MIN = area;
+					}
+				}
+			}
+		}
+	}
+
+	if (MIN != INT_MAX) {
+		return MIN;
+	}
+
+	return 0;
+}
+
 int main() {
 	//
 
