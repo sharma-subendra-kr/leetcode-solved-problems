@@ -11,6 +11,7 @@
 
 using namespace std;
 
+// Try Rabin-Karp solution
 int repeatedStringMatch(string a, string b) {
 	//
 	string copy = "";
