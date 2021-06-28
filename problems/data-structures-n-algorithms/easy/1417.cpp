@@ -11,10 +11,10 @@
 
 using namespace std;
 
-void forAlpha(int *ptr, string &s, string &res, bool *valid) {
+void forAlpha(int *ptr, string &s, char *res, bool *valid, int idx) {
 	while (*ptr != s.size()) {
 		if (isalpha(s[*ptr])) {
-			res += s[*ptr];
+			res[idx] = s[*ptr];
 			(*ptr)++;
 			*valid = true;
 			break;
@@ -23,10 +23,10 @@ void forAlpha(int *ptr, string &s, string &res, bool *valid) {
 	}
 }
 
-void forNum(int *ptr, string &s, string &res, bool *valid) {
+void forNum(int *ptr, string &s, char *res, bool *valid, int idx) {
 	while (*ptr != s.size()) {
 		if (!isalpha(s[*ptr])) {
-			res += s[*ptr];
+			res[idx] = s[*ptr];
 			(*ptr)++;
 			*valid = true;
 			break;
@@ -37,7 +37,7 @@ void forNum(int *ptr, string &s, string &res, bool *valid) {
 
 string reformat(string s) {
 	//
-	string res = "";
+	char res[s.size() + 1];
 	int cPtr = 0;
 	int nPtr = 0;
 	int turn = 0;
@@ -57,7 +57,7 @@ string reformat(string s) {
 		bool valid = false;
 
 		if (cAlp > cNum) {
-			forAlpha(&cPtr, s, res, &valid);
+			forAlpha(&cPtr, s, res, &valid, turn);
 			turn++;
 			if (!valid) {
 				return "";
@@ -66,12 +66,12 @@ string reformat(string s) {
 				break;
 			}
 			valid = false;
-			forNum(&nPtr, s, res, &valid);
+			forNum(&nPtr, s, res, &valid, turn);
 			if (!valid) {
 				return "";
 			}
 		} else {
-			forNum(&nPtr, s, res, &valid);
+			forNum(&nPtr, s, res, &valid, turn);
 			turn++;
 			if (!valid) {
 				return "";
@@ -80,14 +80,15 @@ string reformat(string s) {
 				break;
 			}
 			valid = false;
-			forAlpha(&cPtr, s, res, &valid);
+			forAlpha(&cPtr, s, res, &valid, turn);
 			if (!valid) {
 				return "";
 			}
 		}
 		turn++;
 	}
-	return res;
+	res[s.size()] = '\0';
+	return string(res);
 }
 
 int main() {
